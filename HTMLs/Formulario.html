@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviar Folleto - Conciencia Hídrica | Escuela Técnica N° 7 Sadosky</title>
+    <style>
+        :root {
+            --primary: #1b4332;
+            --secondary: #2d6a4f;
+            --accent: #52b788;
+            --light-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-main: #212529;
+            --text-muted: #6c757d;
+            --border-color: #dee2e6;
+            --transition-speed: 0.3s;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+
+        header {
+            background-color: var(--primary);
+            color: #ffffff;
+            padding: 18px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid var(--secondary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .header-title-box h1 {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .header-title-box p {
+            font-size: 0.75rem;
+            color: #d8f3dc;
+        }
+
+        .school-logo-badge {
+            background: rgba(255, 255, 255, 0.12);
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--accent);
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-transform: uppercase;
+        }
+
+        nav {
+            background-color: var(--secondary);
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            padding: 12px;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: background var(--transition-speed);
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #d8f3dc;
+        }
+
+        .container {
+            flex: 1;
+            max-width: 600px;
+            width: 92%;
+            margin: 40px auto;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--border-color);
+        }
+
+        .titulo-seccion {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-align: center;
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: #f9fafb;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+            background-color: #fff;
+        }
+
+        .nota-informativa {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            background-color: #f1f3f5;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .btn-enviar {
+            width: 100%;
+            background-color: var(--primary);
+            color: white;
+            padding: 14px;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-enviar:hover {
+            background-color: var(--secondary);
+        }
+
+        footer {
+            background-color: #212529;
+            color: #adb5bd;
+            padding: 24px;
+            font-size: 0.85rem;
+            border-top: 4px solid var(--primary);
+            margin-top: auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-title-box">
+            <h1>Escuela Técnica N° 7</h1>
+            <p>"Dr. Manuel Sadosky" — San Luis</p>
+        </div>
+        <div class="school-logo-badge">
+            <span>Sadosky</span>
+        </div>
+    </header>
+
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="Gallery.html">Galería</a>
+    </nav>
+
+    <div class="container">
+        <h1 class="titulo-seccion">Envío de Folleto</h1>
+        
+        <div class="nota-informativa">
+            ℹ️ <strong>Aviso importante:</strong> Al hacer clic en preparar correo, se abrirá tu aplicación para enviar tus datos a <strong>sadoskyjam@gmail.com</strong>. No te olvides de **adjuntar la imagen** de tu folleto antes de darle a enviar.
+        </div>
+
+        <form action="mailto:sadoskyjam@gmail.com" method="post" enctype="text/plain">
+            <div class="form-group">
+                <label for="nombre">Nombre y Apellido:</label>
+                <input type="text" id="nombre" name="Estudiante" required placeholder="Ej: Juan Pérez">
+            </div>
+
+            <div class="form-group">
+                <label for="curso">Curso:</label>
+                <select id="curso" name="Curso" required>
+                    <option value="" disabled selected>Seleccioná tu curso</option>
+                    <option value="1°A">1° Año A</option>
+                    <option value="1°B">1° Año B</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="comentario">Mensaje o detalles (Opcional):</label>
+                <input type="text" id="comentario" name="Comentario" placeholder="Algún comentario adicional">
+            </div>
+
+            <button type="submit" class="btn-enviar">Preparar Correo 📩</button>
+        </form>
+    </div>
+
+    <footer>
+        <p>Escuela Técnica N°7 "Dr. Manuel Sadosky" &bull; San Luis &bull; 2026</p>
+    </footer>
+
+</body>
+</html>

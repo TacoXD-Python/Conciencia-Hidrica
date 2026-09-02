@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería - Conciencia Hídrica | Escuela Técnica N° 7 Sadosky</title>
+    <style>
+        /* ==========================================================================
+           1. VARIABLES Y CONFIGURACIÓN DE COLORES (SISTEMA DE DISEÑO)
+           ========================================================================== */
+        :root {
+            --primary: #1b4332;
+            --secondary: #2d6a4f;
+            --accent: #52b788;
+            --light-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-main: #212529;
+            --text-muted: #6c757d;
+            --border-color: #dee2e6;
+            --transition-speed: 0.3s;
+        }
+
+        /* ==========================================================================
+           2. RESET GLOBAL Y NORMALIZACIÓN DE ELEMENTOS
+           ========================================================================== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ==========================================================================
+           3. ESTRUCTURA PRINCIPAL DEL CUERPO (FLEXBOX LAYOUT)
+           ========================================================================== */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ==========================================================================
+           4. ENCABEZADO INSTITUCIONAL
+           ========================================================================== */
+        header {
+            background-color: var(--primary);
+            color: #ffffff;
+            padding: 18px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid var(--secondary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-title-box h1 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .header-title-box p {
+            font-size: 0.75rem;
+            margin-top: 3px;
+            color: #d8f3dc;
+            font-weight: 400;
+        }
+
+        .school-logo-badge {
+            background: rgba(255, 255, 255, 0.12);
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--accent);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #ffffff;
+            text-transform: uppercase;
+        }
+
+        /* ==========================================================================
+           5. BARRA DE NAVEGACIÓN INTERNA
+           ========================================================================== */
+        nav {
+            background-color: var(--secondary);
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            padding: 12px;
+            box-shadow: inset 0 -2px 5px rgba(0,0,0,0.1);
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: color var(--transition-speed) ease;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #d8f3dc;
+        }
+
+        /* ==========================================================================
+           6. CONTENEDOR CENTRAL DE LA GALERÍA
+           ========================================================================== */
+        .container {
+            flex: 1;
+            max-width: 650px;
+            width: 92%;
+            margin: 30px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .titulo-seccion {
+            font-size: 1.7rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            color: var(--primary);
+            text-align: center;
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 8px;
+            width: 100%;
+            letter-spacing: -0.5px;
+        }
+
+        /* ==========================================================================
+           7. FEED DINÁMICO DE TARJETAS DE IMÁGENES (CON DIMENSIONES UNIFORMES)
+           ========================================================================== */
+        .feed-fotos {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .foto-card {
+            background: var(--card-bg);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--border-color);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 480px; /* Altura fija para evitar espacios en blanco */
+            cursor: pointer;
+            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+        }
+
+        .foto-card:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .foto-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Llena todo el espacio perfectamente sin deformar */
+            display: block;
+        }
+
+        /* ==========================================================================
+           8. ESTILOS DEL MODAL / VISOR DE PANTALLA COMPLETA (GALERÍA REAL)
+           ========================================================================== */
+        #visor-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.92);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        #visor-modal.activo {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #visor-modal img {
+            max-width: 100%;
+            max-height: 100vh;
+            object-fit: contain;
+            touch-action: pinch-zoom; /* Permite hacer zoom con los dedos nativamente */
+        }
+
+        .btn-cerrar-visor {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            border: none;
+            font-size: 2rem;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.2s ease;
+        }
+
+        .btn-cerrar-visor:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        /* ==========================================================================
+           9. ESTADOS DE CARGA Y ELEMENTOS PENDIENTES (EN ESPERA)
+           ========================================================================== */
+        .en-espera {
+            background-color: #f1f3f5;
+            color: var(--text-muted);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            border: 2px dashed #cbd5e1;
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        .en-espera span {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .en-espera small {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        /* ==========================================================================
+           10. SECCIÓN DE FIN DE GALERÍA Y BOTÓN A COMPROMISO
+           ========================================================================== */
+        #seccion-fin-galeria {
+            display: none; /* Oculto hasta que carguen todos los folletos */
+            width: 100%;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .btn-ir-compromiso {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 16px 28px;
+            font-size: 1.05rem;
+            font-weight: bold;
+            border-radius: 30px;
+            text-decoration: none;
+            box-shadow: 0 6px 20px rgba(27, 67, 50, 0.3);
+            transition: transform 0.2s, background 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 2px solid var(--accent);
+        }
+
+        .btn-ir-compromiso:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        /* ==========================================================================
+           11. PIE DE PÁGINA INSTITUCIONAL (FOOTER)
+           ========================================================================== */
+        footer {
+            background-color: #212529;
+            color: #adb5bd;
+            padding: 24px;
+            font-size: 0.85rem;
+            border-top: 4px solid var(--primary);
+            margin-top: auto;
+            text-align: center;
+        }
+
+        footer p {
+            margin: 0;
+            color: #ced4da;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-title-box">
+            <h1>Escuela Técnica N° 7</h1>
+            <p>"Dr. Manuel Sadosky" — San Luis</p>
+        </div>
+        <div class="school-logo-badge">
+            <span>Sadosky</span>
+        </div>
+    </header>
+
+    <nav>
+        <a href="index.html">Inicio</a>
+    </nav>
+
+    <div class="container">
+        <h1 class="titulo-seccion">Conciencia Hídrica (1°A y 1°B)</h1>
+        
+        <!-- Feed dinámico de folletos -->
+        <div class="feed-fotos" id="contenedor-feed"></div>
+
+        <!-- Botón que aparece al final de los 100 folletos -->
+        <div id="seccion-fin-galeria">
+            <a href="Compromiso.html" class="btn-ir-compromiso">
+                Siguiente: Asumir Compromiso Hídrico 💧
+            </a>
+        </div>
+    </div>
+
+    <div id="visor-modal">
+        <button class="btn-cerrar-visor" id="cerrar-modal">&times;</button>
+        <img id="imagen-ampliada" src="" alt="Folleto Ampliado">
+    </div>
+
+    <footer>
+        <p>Escuela Técnica N°7 "Dr. Manuel Sadosky" &bull; San Luis &bull; 2026</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const feed = document.getElementById('contenedor-feed');
+            const totalEstudiantes = 100; // Límite exacto para los cursos 1°A y 1°B
+            
+            const visorModal = document.getElementById('visor-modal');
+            const imagenAmpliada = document.getElementById('imagen-ampliada');
+            const botonCerrar = document.getElementById('cerrar-modal');
+            const seccionFinGaleria = document.getElementById('seccion-fin-galeria');
+
+            function cargarGaleriaDinamica() {
+                for (let i = 1; i <= totalEstudiantes; i++) {
+                    const card = document.createElement('div');
+                    card.className = 'foto-card';
+                    card.id = `card-estudiante-${i}`;
+
+                    const img = document.createElement('img');
+                    img.alt = `Folleto de Conciencia Hídrica ${i}`;
+                    
+                    // Rutas precisas saliendo de 'HTMLs' hacia la raíz para encontrar 'Images'
+                    const rutasPosibles = [
+                        `../Images/Folleto${i}.jpeg`,
+                        `../Images/Folleto${i}.JPEG`,
+                        `../Images/Folleto${i}.jpg`,
+                        `../Images/Folleto${i}.JPG`,
+                        `../Images/Folleto${i}.png`,
+                        `../Images/Folleto${i}.PNG`,
+                        `../images/Folleto${i}.jpeg`,
+                        `../images/Folleto${i}.jpg`,
+                        `../images/Folleto${i}.png`
+                    ];
+
+                    let indiceRutaActual = 0;
+                    img.src = rutasPosibles[indiceRutaActual];
+
+                    // Manejo limpio de errores de carga en cascada sin demoras
+                    img.onerror = function() {
+                        indiceRutaActual++;
+                        if (indiceRutaActual < rutasPosibles.length) {
+                            img.src = rutasPosibles[indiceRutaActual];
+                        } else {
+                            // Tarjeta de estado en espera si el folleto aún no fue subido
+                            card.innerHTML = `
+                                <div class="en-espera">
+                                    <span>EN ESPERA</span>
+                                    <small>Folleto ${i} (Pendiente de subida)</small>
+                                </div>
+                            `;
+                            card.style.cursor = 'default';
+                        }
+                    };
+
+                    // Evento para abrir el visor de pantalla completa al tocar la tarjeta
+                    card.addEventListener('click', function() {
+                        if (card.querySelector('.en-espera')) return;
+                        imagenAmpliada.src = img.src;
+                        visorModal.classList.add('activo');
+                    });
+
+                    // Insertar imagen si la tarjeta no fue reemplazada por el cartel de espera
+                    if (!card.hasChildNodes()) {
+                        card.appendChild(img);
+                    }
+
+                    // Inyectar la tarjeta al feed principal
+                    feed.appendChild(card);
+                }
+
+                // Una vez que se generaron los 100 elementos, mostramos el botón final
+                seccionFinGaleria.style.display = 'block';
+            }
+
+            // Cerrar el visor modal al presionar la "X" o tocar el fondo oscuro
+            botonCerrar.addEventListener('click', function() {
+                visorModal.classList.remove('activo');
+            });
+
+            visorModal.addEventListener('click', function(e) {
+                if (e.target === visorModal) {
+                    visorModal.classList.remove('activo');
+                }
+            });
+
+            // Inicializar la galería al cargar el DOM
+            cargarGaleriaDinamica();
+        });
+    </script>
+</body>
+</html>
