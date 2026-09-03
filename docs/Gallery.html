@@ -368,18 +368,15 @@
                     const img = document.createElement('img');
                     img.alt = `Folleto de Conciencia Hídrica ${i}`;
                     
-                    // Rutas precisas saliendo de 'HTMLs' hacia la raíz para encontrar 'Images'
+                    // Rutas directas dentro de la carpeta Images (comparten la misma carpeta docs)
                     const rutasPosibles = [
-    `Images/Folleto${i}.jpeg`,
-    `Images/Folleto${i}.JPEG`,
-    `Images/Folleto${i}.jpg`,
-    `Images/Folleto${i}.JPG`,
-    `Images/Folleto${i}.png`,
-    `Images/Folleto${i}.PNG`
-];
-
-                        
-                        
+                        `Images/Folleto${i}.jpeg`,
+                        `Images/Folleto${i}.JPEG`,
+                        `Images/Folleto${i}.jpg`,
+                        `Images/Folleto${i}.JPG`,
+                        `Images/Folleto${i}.png`,
+                        `Images/Folleto${i}.PNG`
+                    ];
 
                     let indiceRutaActual = 0;
                     img.src = rutasPosibles[indiceRutaActual];
