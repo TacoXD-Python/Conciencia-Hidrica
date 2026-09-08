@@ -138,7 +138,7 @@
         }
 
         /* ==========================================================================
-           7. FEED DINÁMICO DE TARJETAS DE IMÁGENES (CON DIMENSIONES UNIFORMES)
+           7. FEED DINÁMICO DE TARJETAS DE IMÁGENES
            ========================================================================== */
         .feed-fotos {
             width: 100%;
@@ -157,7 +157,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 480px; /* Altura fija para evitar espacios en blanco */
+            height: 480px;
             cursor: pointer;
             transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
         }
@@ -169,12 +169,12 @@
         .foto-card img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Llena todo el espacio perfectamente sin deformar */
+            object-fit: cover;
             display: block;
         }
 
         /* ==========================================================================
-           8. ESTILOS DEL MODAL / VISOR DE PANTALLA COMPLETA (GALERÍA REAL)
+           8. ESTILOS DEL MODAL / VISOR DE PANTALLA COMPLETA
            ========================================================================== */
         #visor-modal {
             position: fixed;
@@ -201,7 +201,7 @@
             max-width: 100%;
             max-height: 100vh;
             object-fit: contain;
-            touch-action: pinch-zoom; /* Permite hacer zoom con los dedos nativamente */
+            touch-action: pinch-zoom;
         }
 
         .btn-cerrar-visor {
@@ -227,7 +227,7 @@
         }
 
         /* ==========================================================================
-           9. ESTADOS DE CARGA Y ELEMENTOS PENDIENTES (EN ESPERA)
+           9. ESTADOS DE CARGA Y ELEMENTOS PENDIENTES
            ========================================================================== */
         .en-espera {
             background-color: #f1f3f5;
@@ -263,7 +263,7 @@
            10. SECCIÓN DE FIN DE GALERÍA Y BOTÓN A COMPROMISO
            ========================================================================== */
         #seccion-fin-galeria {
-            display: none; /* Oculto hasta que carguen todos los folletos */
+            display: none;
             width: 100%;
             margin-top: 40px;
             text-align: center;
@@ -329,10 +329,8 @@
     <div class="container">
         <h1 class="titulo-seccion">Conciencia Hídrica (1°A y 1°B)</h1>
         
-        <!-- Feed dinámico de folletos -->
         <div class="feed-fotos" id="contenedor-feed"></div>
 
-        <!-- Botón que aparece al final de los 100 folletos -->
         <div id="seccion-fin-galeria">
             <a href="Compromiso.html" class="btn-ir-compromiso">
                 Siguiente: Asumir Compromiso Hídrico 💧
@@ -352,7 +350,11 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const feed = document.getElementById('contenedor-feed');
-            const totalEstudiantes = 31; // Límite exacto para los cursos 1°A y 1°B
+            
+            // Configurado exactamente de 16 a 45 para mostrar 30 folletos en total
+            const inicioFolleto = 16;
+            const totalFolletosMostrar = 30;
+            const finFolleto = inicioFolleto + totalFolletosMostrar - 1; // Termina en el 45
             
             const visorModal = document.getElementById('visor-modal');
             const imagenAmpliada = document.getElementById('imagen-ampliada');
@@ -360,7 +362,7 @@
             const seccionFinGaleria = document.getElementById('seccion-fin-galeria');
 
             function cargarGaleriaDinamica() {
-                for (let i = 1; i <= totalEstudiantes; i++) {
+                for (let i = inicioFolleto; i <= finFolleto; i++) {
                     const card = document.createElement('div');
                     card.className = 'foto-card';
                     card.id = `card-estudiante-${i}`;
@@ -368,7 +370,9 @@
                     const img = document.createElement('img');
                     img.alt = `Folleto de Conciencia Hídrica ${i}`;
                     
-                    // Rutas directas dentro de la carpeta Images (comparten la misma carpeta docs)
+                    // Activamos lazy loading nativo para evitar saturar GitHub Pages de golpe
+                    img.loading = "lazy";
+                    
                     const rutasPosibles = [
                         `Images/Folleto${i}.jpeg`,
                         `Images/Folleto${i}.JPEG`,
@@ -381,13 +385,11 @@
                     let indiceRutaActual = 0;
                     img.src = rutasPosibles[indiceRutaActual];
 
-                    // Manejo limpio de errores de carga en cascada sin demoras
                     img.onerror = function() {
                         indiceRutaActual++;
                         if (indiceRutaActual < rutasPosibles.length) {
                             img.src = rutasPosibles[indiceRutaActual];
                         } else {
-                            // Tarjeta de estado en espera si el folleto aún no fue subido
                             card.innerHTML = `
                                 <div class="en-espera">
                                     <span>EN ESPERA</span>
@@ -398,27 +400,22 @@
                         }
                     };
 
-                    // Evento para abrir el visor de pantalla completa al tocar la tarjeta
                     card.addEventListener('click', function() {
                         if (card.querySelector('.en-espera')) return;
                         imagenAmpliada.src = img.src;
                         visorModal.classList.add('activo');
                     });
 
-                    // Insertar imagen si la tarjeta no fue reemplazada por el cartel de espera
                     if (!card.hasChildNodes()) {
                         card.appendChild(img);
                     }
 
-                    // Inyectar la tarjeta al feed principal
                     feed.appendChild(card);
                 }
 
-                // Una vez que se generaron los 100 elementos, mostramos el botón final
                 seccionFinGaleria.style.display = 'block';
             }
 
-            // Cerrar el visor modal al presionar la "X" o tocar el fondo oscuro
             botonCerrar.addEventListener('click', function() {
                 visorModal.classList.remove('activo');
             });
@@ -429,7 +426,6 @@
                 }
             });
 
-            // Inicializar la galería al cargar el DOM
             cargarGaleriaDinamica();
         });
     </script>
