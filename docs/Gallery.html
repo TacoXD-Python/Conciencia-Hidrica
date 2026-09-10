@@ -351,10 +351,9 @@
         document.addEventListener("DOMContentLoaded", function() {
             const feed = document.getElementById('contenedor-feed');
             
-            // Configurado exactamente de 16 a 45 para mostrar 30 folletos en total
-            const inicioFolleto = 16;
-            const totalFolletosMostrar = 30;
-            const finFolleto = inicioFolleto + totalFolletosMostrar - 1; // Termina en el 45
+            // Configurado para mostrar del Folleto1 al Folleto30
+            const inicioFolleto = 1;
+            const finFolleto = 30;
             
             const visorModal = document.getElementById('visor-modal');
             const imagenAmpliada = document.getElementById('imagen-ampliada');
@@ -370,7 +369,7 @@
                     const img = document.createElement('img');
                     img.alt = `Folleto de Conciencia Hídrica ${i}`;
                     
-                    // Activamos lazy loading nativo para evitar saturar GitHub Pages de golpe
+                    // Activamos lazy loading nativo
                     img.loading = "lazy";
                     
                     const rutasPosibles = [
